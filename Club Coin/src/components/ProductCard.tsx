@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Product } from "./Product.tsx";
+import { transferTokens } from "../contractFunctions.tsx";
 
 interface ProductCardProps {
 	product: Product;
@@ -9,8 +10,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
 	const navigate = useNavigate();
 
 	const handleRedeem = () => {
-		// In a real app, you would make an API call here
-		// to process the transaction
+		// Filler code until access to wallet is available
+		transferTokens(
+			"0x0000000000000000000",
+			product.price,
+			"0x0000000000000000000"
+		);
 		navigate("success");
 	};
 
