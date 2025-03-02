@@ -107,7 +107,7 @@ const AuthComponent: React.FC = () => {
 
   // User is authenticated
   if (authenticated && user) {
-    handleBalance(user.wallet.address);
+    //handleBalance(user.wallet.address);
     return (
       <>
       <div className="w-full max-w-xl bg-gray-800 rounded-xl shadow-xl overflow-hidden">
