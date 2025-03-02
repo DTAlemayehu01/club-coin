@@ -1,78 +1,172 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+//import { PrivyClient } from "@privy-io/react-auth";
+import axios from 'axios';
+import { getBalance } from "../contractFunctions.tsx";
 
-interface Account {
-	email: string;
-	walletAddress: string;
-	balance: number;
+interface user_accounts {
+	types: string;
+	address: string;
+	verified_at: number;
+}
+
+interface wallets {
+	types: string;
+	address: string;
+	chain_type: string;
+	verified_at: number;
+}
+
+interface linked_accounts {
+	wallet: wallets;
+	account: user_accounts;
+}
+// account
+interface data {
+	id: string;
+	created_at: number;
+	linked_accounts: linked_accounts[];
+}
+
+// privyusersresp
+interface PrivyUsersResponse {
+  data: data[];
+  next_cursor: string;
 }
 
 interface AdminPanelProps {
 	title?: string;
 }
 
+interface final_user {
+	email: string;
+	walletAddress: string;
+	balance: number;
+}
+
+//const privy = new PrivyClient(appId, apiKey);
+//const users = await privy.getUsers();
+
 const Admin: React.FC<AdminPanelProps> = ({ title = "Admin Dashboard" }) => {
-	const [accounts, setAccounts] = useState<Account[]>([]);
-	const [isLoading, setIsLoading] = useState<boolean>(true);
+	const [listAccounts, setUsers] = useState<data[]>([]);
+	const [isLoading, setLoading] = useState<boolean>(true);
+	const [error, setError] = useState<string | null>(null);
 	const [searchTerm, setSearchTerm] = useState<string>("");
-	const [sortBy, setSortBy] = useState<keyof Account>("email");
+	const [sortBy, setSortBy] = useState<keyof final_user>("email");
 	const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+	const [accounts, setAccounts] = useState<final_user[]>([]);
 
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		// Simulate API fetch
-		const fetchAccounts = async () => {
-			setIsLoading(true);
-			try {
-				// Mock data - replace with actual API call
-				const mockData: Account[] = [
-					{
-						email: "john.smith@example.com",
-						walletAddress:
-							"0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
-						balance: 12500.75,
-					},
-					{
-						email: "sarah.j@example.com",
-						walletAddress:
-							"0x2546BcD3c84621e976D8185a91A922aE77ECEc30",
-						balance: 4205.25,
-					},
-					{
-						email: "miguel.r@example.com",
-						walletAddress:
-							"0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199",
-						balance: 0,
-					},
-					{
-						email: "alex.chen@example.com",
-						walletAddress:
-							"0xdD870fA1b7C4700F2BD7f44238821C26f7392148",
-						balance: 28750.5,
-					},
-					{
-						email: "priya.p@example.com",
-						walletAddress:
-							"0x583031D1113aD414F02576BD6afaBfb302140225",
-						balance: 950.1,
-					},
-				];
+		const fetchUsers = async () => {
+		try {
+			setLoading(true);
 
-				setTimeout(() => {
-					setAccounts(mockData);
-					setIsLoading(false);
-				}, 800);
-			} catch (error) {
-				console.error("Error fetching accounts:", error);
-				setIsLoading(false);
-			}
+			// You'll likely need to add authentication headers here
+			let users_data : data[] = [];
+			let cursor = ""
+			do {
+				const response = await axios.get<PrivyUsersResponse>(
+				'https://auth.privy.io/api/v1/users',
+				{
+					headers: {
+						'Authorization': `Basic ${btoa(`${import.meta.env.VITE_PRIVY_APP_ID}:${import.meta.env.VITE_PRIVY_API_KEY}`)}`,
+						'privy-app-id': import.meta.env.VITE_PRIVY_APP_ID,
+					}
+				}
+				);
+				users_data = users_data.concat(response.data.data);
+				cursor = response.data.next_cursor;
+			} while (cursor !== null);
+
+			setUsers(users_data);
+			setError(null);
+		} catch (err) {
+			console.error('Error fetching Privy users:', err);
+			setError(err instanceof Error ? err.message : 'An unknown error occurred');
+		} finally {
+			setLoading(false);
+		}
 		};
 
-		fetchAccounts();
+		const parseUsers = async () => {
+			let final_list: final_user[] = [];
+			for(let i = 0; i < listAccounts.length; i++) {
+				const user = listAccounts[i];
+				const aEmail = user.linked_accounts[0].account.address;
+				const aWallet = user.linked_accounts[0].wallet.address;
+				const aBalance = await Number(getBalance(aWallet));
+				const new_user: final_user = {
+					email: aEmail,
+					walletAddress: aWallet,
+					balance: aBalance,
+				}
+				final_list = final_list.concat(new_user);
+			};
+			setAccounts(final_list);
+		}
+
+		fetchUsers();
+		parseUsers();
 	}, []);
 
-	const handleSort = (column: keyof Account) => {
+	if (isLoading) return <div>Loading users...</div>;
+	if (error) return <div>Error: {error}</div>;
+
+	//useEffect(() => {
+	//	// Simulate API fetch
+	//	const fetchAccounts = async () => {
+	//		setIsLoading(true);
+	//		try {
+	//			// Mock data - replace with actual API call
+	//			const mockData: Account[] = [
+	//				{
+	//					email: "john.smith@example.com",
+	//					walletAddress:
+	//						"0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
+	//					balance: 12500.75,
+	//				},
+	//				{
+	//					email: "sarah.j@example.com",
+	//					walletAddress:
+	//						"0x2546BcD3c84621e976D8185a91A922aE77ECEc30",
+	//					balance: 4205.25,
+	//				},
+	//				{
+	//					email: "miguel.r@example.com",
+	//					walletAddress:
+	//						"0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199",
+	//					balance: 0,
+	//				},
+	//				{
+	//					email: "alex.chen@example.com",
+	//					walletAddress:
+	//						"0xdD870fA1b7C4700F2BD7f44238821C26f7392148",
+	//					balance: 28750.5,
+	//				},
+	//				{
+	//					email: "priya.p@example.com",
+	//					walletAddress:
+	//						"0x583031D1113aD414F02576BD6afaBfb302140225",
+	//					balance: 950.1,
+	//				},
+	//			];
+
+	//			setTimeout(() => {
+	//				setAccounts(mockData);
+	//				setIsLoading(false);
+	//			}, 800);
+	//		} catch (error) {
+	//			console.error("Error fetching accounts:", error);
+	//			setIsLoading(false);
+	//		}
+	//	};
+
+	//	fetchAccounts();
+	//}, []);
+
+	const handleSort = (column: keyof final_user) => {
 		if (sortBy === column) {
 			setSortDirection(sortDirection === "asc" ? "desc" : "asc");
 		} else {
