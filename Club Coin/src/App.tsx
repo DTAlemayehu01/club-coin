@@ -1,25 +1,62 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { usePrivy } from "@privy-io/react-auth";
 import Admin from "./components/Admin.tsx";
 import User from "./components/User.tsx";
+import AdminLogin from "./components/adminLogin.tsx";
+import UserLogin from "./components/userLogin.tsx";
 import "./App.css";
+
+// Protected route component
+const ProtectedRoute: React.FC<{ element: React.ReactNode }> = ({ element }) => {
+  const { authenticated, ready } = usePrivy();
+
+  // Show loading while Privy initializes
+  if (!ready) {
+    return <div>Loading...</div>;
+  }
+
+  // Redirect to login if not authenticated
+  if (!authenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <>{element}</>;
+};
 
 const App: React.FC = () => {
 	const handleTransferSubmit = (amount: number, address: string) => {
 		console.log(`Transferring ${amount} to ${address}`);
 		// Add your transfer logic here
 	};
+	const {
+		ready,
+		authenticated,
+		user,
+		logout,
+		login,
+	} = usePrivy();
 
 	return (
 		<BrowserRouter>
 			<Routes>
 				{/* Home Route - Redirect to user page */}
-				<Route path="/" element={<Navigate to="/user" replace />} />
+				<Route path="/" element={<Navigate to="/login" replace />} />
+
+				<Route
+					path="/login"
+					element={<UserLogin />}
+				/>
 
 				{/* User Route - Transfer Funds Form */}
 				<Route
 					path="/user"
-					element={<User onSubmit={handleTransferSubmit} />}
+					element={<ProtectedRoute element=<User onSubmit={handleTransferSubmit} />/>}
+				/>
+
+				<Route
+					path="/admin-login"
+					element={<AdminLogin redirectPath="/admin" />}
 				/>
 
 				{/* Admin route - admin panel */}
