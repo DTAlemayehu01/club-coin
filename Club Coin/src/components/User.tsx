@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { PrivyProvider, usePrivy } from "@privy-io/react-auth";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface UserDashboardProps {
 	title?: string;

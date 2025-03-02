@@ -11,7 +11,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 	const handleRedeem = () => {
 		// In a real app, you would make an API call here
 		// to process the transaction
-		navigate("user/redeem/success/");
+		navigate("success");
 	};
 
 	return (

@@ -3,8 +3,9 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Admin from "./components/Admin.tsx";
 import User from "./components/User.tsx";
 import UserTransfer from "./components/UserTransfer.tsx";
-import "./App.css";
 import UserRedeem from "./components/UserRedeem.tsx";
+import SuccessPage from "./components/UserRedeemSuccess.tsx";
+import "./App.css";
 
 const App: React.FC = () => {
 	const handleTransferSubmit = (amount: number, address: string) => {
@@ -27,8 +28,11 @@ const App: React.FC = () => {
 					element={<UserTransfer onSubmit={handleTransferSubmit} />}
 				/>
 
-				{/* User Redeem Route - Allows use to redeeem Club Coins */}
+				{/* User Redeem Route - Allows use to redeem Club Coins */}
 				<Route path="/user/redeem" element={<UserRedeem />} />
+
+				{/* User Redeem Success Route - Success page for when a redemption transaction is successful */}
+				<Route path="/user/redeem/success" element={<SuccessPage />} />
 
 				{/* Admin route - admin panel */}
 				<Route

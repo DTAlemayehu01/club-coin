@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface TransferFormProps {
 	onSubmit: (amount: number, address: string) => void;
@@ -31,9 +31,9 @@ const UserTransfer: React.FC<TransferFormProps> = ({ onSubmit }) => {
 				>
 					Back
 				</button>
-				<h2 className="text-3xl font-bold text-white mb-6">
+				<h1 className="text-3xl font-bold text-white mb-6">
 					Transfer Funds
-				</h2>
+				</h1>
 
 				<div className="bg-gray-800 rounded-xl shadow-xl overflow-hidden p-4">
 					<form onSubmit={handleSubmit}>
