@@ -1,29 +1,70 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { usePrivy } from "@privy-io/react-auth";
 import Admin from "./components/Admin.tsx";
-import User from "./components/User.tsx";
+//import UserPage from "./components/User.tsx";
+import AdminLogin from "./components/adminLogin.tsx";
+import UserLogin from "./components/userLogin.tsx";
 import UserTransfer from "./components/UserTransfer.tsx";
 import UserRedeem from "./components/UserRedeem.tsx";
 import SuccessPage from "./components/UserRedeemSuccess.tsx";
+// import MessageModal from "./components/Message.tsx";
 import PageDoesNotExist from "./components/PageDoesNotExist.tsx";
 import "./App.css";
+
+// Protected route component
+const ProtectedRoute: React.FC<{ element: React.ReactNode }> = ({ element }) => {
+  const { authenticated, ready } = usePrivy();
+
+  // Show loading while Privy initializes
+  if (!ready) {
+    return <div>Loading...</div>;
+  }
+
+  // Redirect to login if not authenticated
+  if (!authenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <>{element}</>;
+};
 
 const App: React.FC = () => {
 	const handleTransferSubmit = (amount: number, address: string) => {
 		console.log(`Transferring ${amount} to ${address}`);
 		// Add your transfer logic here
 	};
+	const {
+		ready,
+		authenticated,
+		user,
+		logout,
+		login,
+	} = usePrivy();
 
 	return (
 		<BrowserRouter>
 			<Routes>
 				{/* Home Route - Redirect to user page */}
-				<Route path="/" element={<Navigate to="/user" replace />} />
+				<Route path="/" element={<Navigate to="/login" replace />} />
 
-				{/* User Route - User Dashboard */}
-				<Route path="/user" element={<User />} />
+				<Route
+					path="/login"
+					element={<UserLogin />}
+				/>
 
 				{/* User Transfer Route - Transfer Funds Form */}
+				{/*
+				<Route
+					path="/user"
+					element={<ProtectedRoute element=<UserLogin onSubmit={handleTransferSubmit} />/>}
+				/>*/}
+
+				<Route
+					path="/admin-login"
+					element={<AdminLogin redirectPath="/admin" />}
+				/>
+
 				<Route
 					path="/user/transfer"
 					element={<UserTransfer onSubmit={handleTransferSubmit} />}

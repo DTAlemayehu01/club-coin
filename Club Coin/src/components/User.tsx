@@ -5,7 +5,11 @@ interface UserDashboardProps {
 	title?: string;
 }
 
-const User: React.FC<UserDashboardProps> = ({ title = "User Dashboard" }) => {
+const UserPage: React.FC<TransferFormProps> = ({ title = "User Dashboard" }) => {
+	const [amount, setAmount] = useState<string>("");
+	const [address, setAddress] = useState<string>("");
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+//const User: React.FC<UserDashboardProps> = ({ title = "User Dashboard" }) => {
 	// const { userEmail, userWallet } = useSession();
 	const userEmail = "a@example.com";
 	const userWallet = "0x1234567890abcdef";
@@ -197,10 +201,11 @@ const User: React.FC<UserDashboardProps> = ({ title = "User Dashboard" }) => {
 					onClick={() => window.location.reload()}
 				>
 					Log Out
+>>>>>>> main
 				</button>
 			</div>
 		</div>
 	);
 };
 
-export default User;
+export default UserPage;

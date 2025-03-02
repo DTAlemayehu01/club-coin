@@ -26,7 +26,7 @@ const SuccessPage = () => {
 					Transaction Successful!
 				</h1>
 				<button
-					onClick={() => navigate("/user")}
+					onClick={() => navigate("/login")}
 					className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-4 px-4 rounded-xl transition-colors items-center justify-center"
 				>
 					Back to Dashboard

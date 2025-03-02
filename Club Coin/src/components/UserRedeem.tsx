@@ -39,7 +39,7 @@ const UserRedeem = () => {
 	return (
 		<div className="container mx-auto py-8 px-8 bg-gray-900 rounded-xl shadow-xl">
 			<button
-				onClick={() => navigate("/user")}
+				onClick={() => navigate("/login")}
 				className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-4 px-4 rounded-xl transition-colors flex items-center justify-center"
 			>
 				Back
