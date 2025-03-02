@@ -147,7 +147,7 @@ const UserLogin: React.FC = () => {
 		<PrivyProvider
 			appId={import.meta.env.VITE_PRIVY_APP_ID}
 			config={{
-				loginMethods: ["email", "wallet"],
+				loginMethods: ["wallet"],
 				appearance: {
 					theme: "light",
 					accentColor: "#4F46E5",
