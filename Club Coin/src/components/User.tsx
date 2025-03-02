@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getBalance } from "../contractFunctions.tsx";
 import { usePrivy } from "@privy-io/react-auth";
+import { ConnectionCloseError } from "web3";
 
 interface UserDashboardProps {
 	title?: string;
@@ -14,10 +15,10 @@ const UserPage: React.FC<UserDashboardProps> = () => {
 	//const User: React.FC<UserDashboardProps> = ({ title = "User Dashboard" }) => {
 	// const { userEmail, userWallet } = useSession();
 	const [balance, setBalance] = useState<string>("");
-	const { state } = useLocation();
 	const navigate = useNavigate();
-	const user = state.user;
+	const { state } = useLocation();
 	const { logout } = usePrivy();
+	const user = state.user;
 
 	useEffect(() => {
 		// Simulate fetching the user's balance
@@ -39,6 +40,7 @@ const UserPage: React.FC<UserDashboardProps> = () => {
 	const handleLogout = async () => {
 		setIsLoading(true);
 		try {
+			navigate("/");
 			await logout();
 		} catch (err) {
 			console.error("Logout error:", err);
