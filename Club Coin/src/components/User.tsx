@@ -181,7 +181,7 @@ const User: React.FC<UserDashboardProps> = ({ title = "User Dashboard" }) => {
 				</div>
 
 				{/* Recent Transactions - Optional */}
-				<div className="mt-8 bg-gray-800 rounded-xl shadow-xl overflow-hidden">
+				{/* <div className="mt-8 bg-gray-800 rounded-xl shadow-xl overflow-hidden">
 					<div className="p-6">
 						<h2 className="text-xl font-semibold text-white mb-4">
 							Recent Transactions
@@ -190,7 +190,7 @@ const User: React.FC<UserDashboardProps> = ({ title = "User Dashboard" }) => {
 							<p>Your recent transactions will appear here.</p>
 						</div>
 					</div>
-				</div>
+				</div> */}
 
 				{/* Log Out Button (Still Needs Implementation) */}
 				<button
