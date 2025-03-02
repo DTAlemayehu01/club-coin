@@ -1,35 +1,37 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+//import reactLogo from './assets/react.svg'
+//import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
+      <h1>User</h1>
+      <br></br>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+        <form action="" method="">
+          <div class="grid grid-cols-4 md:grid-cols-4 gap-3">
+            <div class="flex items-center">
+              <label class="mr-2" for="withdraw_amt">Amount to Transfer:</label>
+            </div>
+            <div class="flex items-center col-span-3">
+              <input class="border-1 border-white m-4 rounded-lg p-1" type="number" min="0" name="withdraw_amt" id="withdraw_amt"></input>
+            </div>
+
+            <div class="flex items-center">
+              <label class="mr-2" for="wallet_address">Wallet Address:</label>
+            </div>
+            <div class="flex items-center col-span-3">
+              <input class="border-1 border-white m-4 rounded-lg p-1" type="text" min="0" name="wallet_address" id="withdraw_amt"></input>
+            </div>
+          </div>
+          <button>
+            Send Amount
+          </button>
+        </form>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
 
-export default App
+export default App;
