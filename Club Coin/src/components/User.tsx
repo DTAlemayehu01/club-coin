@@ -42,7 +42,6 @@ const UserPage: React.FC<UserDashboardProps> = () => {
 		try {
 			navigate("/");
 			await logout();
-			navigate('/login');
 		} catch (err) {
 			console.error("Logout error:", err);
 		} finally {
