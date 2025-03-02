@@ -40,6 +40,7 @@ const UserPage: React.FC<UserDashboardProps> = () => {
 		setIsLoading(true);
 		try {
 			await logout();
+			navigate('/login');
 		} catch (err) {
 			console.error("Logout error:", err);
 		} finally {
