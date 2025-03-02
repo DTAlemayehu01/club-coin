@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Admin from "./components/Admin.tsx";
 import User from "./components/User.tsx";
+import UserTransfer from "./components/UserTransfer.tsx";
 import "./App.css";
 
 const App: React.FC = () => {
@@ -16,10 +17,13 @@ const App: React.FC = () => {
 				{/* Home Route - Redirect to user page */}
 				<Route path="/" element={<Navigate to="/user" replace />} />
 
-				{/* User Route - Transfer Funds Form */}
+				{/* User Route - User Dashboard */}
+				<Route path="/user" element={<User />} />
+
+				{/* User Transfer Route - Transfer Funds Form */}
 				<Route
-					path="/user"
-					element={<User onSubmit={handleTransferSubmit} />}
+					path="/user/transfer"
+					element={<UserTransfer onSubmit={handleTransferSubmit} />}
 				/>
 
 				{/* Admin route - admin panel */}
@@ -32,7 +36,7 @@ const App: React.FC = () => {
 				<Route
 					path="*"
 					element={
-						<div className="min-h-screen bg-gray-900 flex items-center justify-center">
+						<div className="h-screen w-xl bg-gray-900 flex items-center justify-center">
 							<div className="text-center">
 								<h1 className="text-4xl font-bold text-white mb-4">
 									404
@@ -42,7 +46,7 @@ const App: React.FC = () => {
 								</p>
 								<a
 									href="/"
-									className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+									className="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded"
 								>
 									Go to Home
 								</a>
