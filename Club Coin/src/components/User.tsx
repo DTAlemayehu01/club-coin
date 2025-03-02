@@ -4,7 +4,7 @@ interface TransferFormProps {
 	onSubmit: (amount: number, address: string) => void;
 }
 
-const User: React.FC<TransferFormProps> = ({ onSubmit }) => {
+const UserPage: React.FC<TransferFormProps> = ({ onSubmit }) => {
 	const [amount, setAmount] = useState<string>("");
 	const [address, setAddress] = useState<string>("");
 	const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -158,4 +158,4 @@ const User: React.FC<TransferFormProps> = ({ onSubmit }) => {
 	);
 };
 
-export default User;
+export default UserPage;

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { usePrivy } from "@privy-io/react-auth";
 import Admin from "./components/Admin.tsx";
-import User from "./components/User.tsx";
+//import UserPage from "./components/User.tsx";
 import AdminLogin from "./components/adminLogin.tsx";
 import UserLogin from "./components/userLogin.tsx";
 import "./App.css";
@@ -51,7 +51,7 @@ const App: React.FC = () => {
 				{/* User Route - Transfer Funds Form */}
 				<Route
 					path="/user"
-					element={<ProtectedRoute element=<User onSubmit={handleTransferSubmit} />/>}
+					element={<ProtectedRoute element=<UserLogin onSubmit={handleTransferSubmit} />/>}
 				/>
 
 				<Route

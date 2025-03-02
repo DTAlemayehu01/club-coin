@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { usePrivy, PrivyProvider } from '@privy-io/react-auth';
+//import { Navigate } from "react-router-dom";
+import UserPage from User.tsx;
 
 // AuthComponent handles login/signup with Privy
 const AuthComponent: React.FC = () => {
@@ -68,47 +70,7 @@ const AuthComponent: React.FC = () => {
   // User is authenticated
   if (authenticated && user) {
     return (
-      <div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
-        <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">Welcome!</h2>
-          {user.email && (
-            <p className="text-gray-600 mt-2">{user.email.address}</p>
-          )}
-        </div>
-
-        <div className="mb-6">
-          <h3 className="text-lg font-semibold mb-2">Your Info</h3>
-          <div className="bg-gray-50 p-4 rounded-md">
-            <p className="text-sm text-gray-700 mb-1">
-              <span className="font-medium">User ID:</span> {user.id}
-            </p>
-            {user.wallet && (
-              <p className="text-sm text-gray-700 mb-1">
-                <span className="font-medium">Wallet:</span> {user.wallet.address.substring(0, 6)}...{user.wallet.address.substring(user.wallet.address.length - 4)}
-              </p>
-            )}
-          </div>
-        </div>
-
-        <div className="space-y-3">
-          {!user.wallet && (
-            <button
-              onClick={handleCreateWallet}
-              disabled={loading}
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-md transition duration-150 ease-in-out disabled:bg-indigo-300"
-            >
-              {loading ? 'Processing...' : 'Create Wallet'}
-            </button>
-          )}
-          <button
-            onClick={handleLogout}
-            disabled={loading}
-            className="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-2 px-4 rounded-md transition duration-150 ease-in-out disabled:bg-gray-50 disabled:text-gray-400"
-          >
-            {loading ? 'Processing...' : 'Logout'}
-          </button>
-        </div>
-      </div>
+      <UserPage />
     );
   }
 
