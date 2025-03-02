@@ -331,9 +331,7 @@ if (!web3) {
 
 const contract = new web3.eth.Contract(contractABI, contractAddress);
 
-export const getBalance = async (
-	account: string
-): Promise<string | undefined> => {
+export const getBalance = async (account: string): Promise<string> => {
 	try {
 		const balance: string = await contract.methods
 			.balanceOf(account)
@@ -341,7 +339,7 @@ export const getBalance = async (
 		return balance;
 	} catch (error) {
 		console.error("Error getting balance:", error);
-		return undefined;
+		return "0";
 	}
 };
 
