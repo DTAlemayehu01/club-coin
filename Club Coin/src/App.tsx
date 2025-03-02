@@ -4,6 +4,7 @@ import Admin from "./components/Admin.tsx";
 import User from "./components/User.tsx";
 import UserTransfer from "./components/UserTransfer.tsx";
 import "./App.css";
+import UserRedeem from "./components/UserRedeem.tsx";
 
 const App: React.FC = () => {
 	const handleTransferSubmit = (amount: number, address: string) => {
@@ -25,6 +26,9 @@ const App: React.FC = () => {
 					path="/user/transfer"
 					element={<UserTransfer onSubmit={handleTransferSubmit} />}
 				/>
+
+				{/* User Redeem Route - Allows use to redeeem Club Coins */}
+				<Route path="/user/redeem" element={<UserRedeem />} />
 
 				{/* Admin route - admin panel */}
 				<Route

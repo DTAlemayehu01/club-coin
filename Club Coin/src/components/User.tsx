@@ -162,7 +162,7 @@ const User: React.FC<UserDashboardProps> = ({ title = "User Dashboard" }) => {
 					</button>
 
 					<button
-						onClick={() => navigate("/redeem")}
+						onClick={() => navigate("/user/redeem")}
 						className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-4 px-4 rounded-xl transition-colors flex items-center justify-center"
 					>
 						<svg
