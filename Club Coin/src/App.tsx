@@ -8,6 +8,7 @@ import UserLogin from "./components/userLogin.tsx";
 import UserTransfer from "./components/UserTransfer.tsx";
 import UserRedeem from "./components/UserRedeem.tsx";
 import SuccessPage from "./components/UserRedeemSuccess.tsx";
+// import MessageModal from "./components/Message.tsx";
 import PageDoesNotExist from "./components/PageDoesNotExist.tsx";
 import "./App.css";
 
