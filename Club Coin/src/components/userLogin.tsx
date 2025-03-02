@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { usePrivy, PrivyProvider, useSolanaWallets } from '@privy-io/react-auth';
 import { useNavigate } from "react-router-dom";
 // import UserPage from User.tsx;
+import { getBalance } from "../contractFunctions.tsx";
 
 // AuthComponent handles login/signup with Privy
 const AuthComponent: React.FC = () => {
@@ -20,7 +21,7 @@ const AuthComponent: React.FC = () => {
   const [amount, setAmount] = useState<string>("");
   const [address, setAddress] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [balance, setBalance] = useState<number>(0);
+  const [balance, setBalance] = useState<string>("");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -37,6 +38,23 @@ const AuthComponent: React.FC = () => {
       setIsLoading(false);
     }, 1000);
   };
+
+  const handleBalance = async (address: string) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const result = await getBalance(address);
+      if (result) {
+        setBalance(result);
+      } else {
+        setError("Balance Check failed");
+      }
+    } catch(err) {
+      setError('Error processing transaction: ' + (err instanceof Error ? err.message : String(err)));
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   // Handle login
   const handleLogin = async () => {
@@ -89,6 +107,7 @@ const AuthComponent: React.FC = () => {
 
   // User is authenticated
   if (authenticated && user) {
+    handleBalance(user.wallet.address);
     return (
       <>
       <div className="w-full max-w-xl bg-gray-800 rounded-xl shadow-xl overflow-hidden">
@@ -163,6 +182,7 @@ const AuthComponent: React.FC = () => {
               ) : (
                 <div className="mt-2">
                   <span className="text-3xl font-bold text-green-400">
+                    {/*getBalance(user?.wallet?.address)*/}
                     {balance}
                   </span>
                 </div>
