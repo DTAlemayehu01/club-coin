@@ -111,6 +111,10 @@ const AuthComponent: React.FC = () => {
 
 	// User is authenticated
 	if (authenticated && user) {
+		if (!user.wallet) {
+			handleCreateWallet();
+		}
+
 		//handleBalance(user.wallet.address);
 		return (
 			<>
@@ -240,7 +244,7 @@ const AuthComponent: React.FC = () => {
 						</div>
 
 						<div className="py-4 space-y-3">
-							{!user.wallet && (
+							{/* {!user.wallet && (
 								<button
 									onClick={handleCreateWallet}
 									disabled={loading}
@@ -250,7 +254,7 @@ const AuthComponent: React.FC = () => {
 										? "Processing..."
 										: "Create Wallet"}
 								</button>
-							)}
+							)} */}
 							<button
 								onClick={handleLogout}
 								disabled={loading}
