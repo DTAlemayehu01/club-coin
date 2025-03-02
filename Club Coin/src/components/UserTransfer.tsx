@@ -75,7 +75,7 @@ const UserTransfer: React.FC<TransferFormProps> = ({ onSubmit }) => {
 									<input
 										id="amount"
 										type="number"
-										step="0.0001"
+										step="1"
 										min="0"
 										required
 										value={amount}
