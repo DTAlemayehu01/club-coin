@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Account {
 	email: string;
@@ -16,6 +17,8 @@ const Admin: React.FC<AdminPanelProps> = ({ title = "Admin Dashboard" }) => {
 	const [searchTerm, setSearchTerm] = useState<string>("");
 	const [sortBy, setSortBy] = useState<keyof Account>("email");
 	const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		// Simulate API fetch
@@ -110,6 +113,12 @@ const Admin: React.FC<AdminPanelProps> = ({ title = "Admin Dashboard" }) => {
 
 	return (
 		<div className="bg-gray-900 min-h-xl rounded-xl shadow-xl">
+			<button
+				onClick={() => navigate("/")}
+				className="min-w-19/20 my-4 bg-gray-100 hover:bg-gray-200 text-white-800 font-medium py-2 px-4 rounded-md transition duration-150 ease-in-out disabled:bg-gray-50 disabled:text-gray-400"
+			>
+				Go to User
+			</button>
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 				<div className="flex justify-between items-center mb-8">
 					<h1 className="text-2xl font-bold text-white">{title}</h1>
