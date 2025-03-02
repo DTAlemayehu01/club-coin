@@ -57,22 +57,19 @@ const Admin: React.FC<AdminPanelProps> = ({ title = "Admin Dashboard" }) => {
             try {
                 setLoading(true);
                 let users_data: UserData[] = [];
-                let cursor = "";
-                
-                do {
-                    const response = await axios.get<PrivyUsersResponse>(
-                        `https://auth.privy.io:5173/api/v1/users${cursor ? `?cursor=${cursor}` : ''}`,
-                        {
-                            headers: {
-                                'Authorization': `Basic ${btoa(`${import.meta.env.VITE_PRIVY_APP_ID}:${import.meta.env.VITE_PRIVY_API_KEY}`)}`,
-                                'privy-app-id': import.meta.env.VITE_PRIVY_APP_ID,
-                            }
-                        }
-                    );
-                    
-                    users_data = users_data.concat(response.data.data);
-                    cursor = response.data.next_cursor;
-                } while (cursor !== "");
+                //let cursor = "";
+				const response = await axios.get<PrivyUsersResponse>(
+					`https://auth.privy.io/api/v1/users`,
+					{
+						headers: {
+							'Authorization': `Basic ${btoa(`${import.meta.env.VITE_PRIVY_APP_ID}:${import.meta.env.VITE_PRIVY_APP_SECRET}`)}`,
+							'privy-app-id': import.meta.env.VITE_PRIVY_APP_ID,
+						}
+					}
+				);
+				
+				users_data = users_data.concat(response.data.data);
+				//cursor = response.data.next_cursor;
                 
                 setUsers(users_data);
                 setError(null);
