@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { usePrivy, PrivyProvider, useSolanaWallets } from '@privy-io/react-auth';
-import { transferTokens } from "../contractFunctions.tsx"
+import {
+	usePrivy,
+	PrivyProvider,
+	useSolanaWallets,
+} from "@privy-io/react-auth";
+import { transferTokens } from "../contractFunctions.tsx";
 
 interface TransferFormProps {
 	onSubmit: (amount: number, address: string) => void;
@@ -14,7 +18,7 @@ const UserTransfer: React.FC<TransferFormProps> = ({ onSubmit }) => {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
 	//const [transactionResult, setTransactionResult] = useState<TransactionResult | null>(null);
-	const {user} = usePrivy();
+	const { user } = usePrivy();
 
 	const navigate = useNavigate();
 
@@ -31,21 +35,23 @@ const UserTransfer: React.FC<TransferFormProps> = ({ onSubmit }) => {
 			// Call the async function
 			const result = await transferTokens(toAddress, amount, fromAddress);
 
-			if (result) {
+			if (result && user && user.wallet) {
 				//setTransactionResult(result);
 				setToAddress(toAddress);
 				setFromAddress(user.wallet.address);
 				setAmount(amount);
 			} else {
-				setError('Transaction failed');
+				setError("Transaction failed");
 			}
 		} catch (err) {
-			setError('Error processing transaction: ' + (err instanceof Error ? err.message : String(err)));
+			setError(
+				"Error processing transaction: " +
+					(err instanceof Error ? err.message : String(err))
+			);
 		} finally {
 			setIsLoading(false);
 		}
 	};
-
 
 	return (
 		<div className="min-w-lg max-w-xl bg-gray-900 rounded-xl shadow-xl overflow-hidden">
@@ -106,7 +112,9 @@ const UserTransfer: React.FC<TransferFormProps> = ({ onSubmit }) => {
 									type="email"
 									required
 									value={toAddress}
-									onChange={(e) => setToAddress(e.target.value)}
+									onChange={(e) =>
+										setToAddress(e.target.value)
+									}
 									className="block w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
 									placeholder="Enter email address"
 								/>

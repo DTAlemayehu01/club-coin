@@ -5,6 +5,7 @@ import {
 	useSolanaWallets,
 } from "@privy-io/react-auth";
 import { useNavigate } from "react-router-dom";
+import logo from "./../images/Totally professional logo.png";
 // import UserPage from User.tsx;
 
 // AuthComponent handles login/signup with Privy
@@ -150,7 +151,7 @@ const UserLogin: React.FC = () => {
 				appearance: {
 					theme: "light",
 					accentColor: "#4F46E5",
-					logo: "https://your-logo-url.com/logo.png",
+					logo: logo,
 				},
 			}}
 		>
