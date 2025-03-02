@@ -13,20 +13,22 @@ import PageDoesNotExist from "./components/PageDoesNotExist.tsx";
 import "./App.css";
 
 // Protected route component
-const ProtectedRoute: React.FC<{ element: React.ReactNode }> = ({ element }) => {
-  const { authenticated, ready } = usePrivy();
+const ProtectedRoute: React.FC<{ element: React.ReactNode }> = ({
+	element,
+}) => {
+	const { authenticated, ready } = usePrivy();
 
-  // Show loading while Privy initializes
-  if (!ready) {
-    return <div>Loading...</div>;
-  }
+	// Show loading while Privy initializes
+	if (!ready) {
+		return <div>Loading...</div>;
+	}
 
-  // Redirect to login if not authenticated
-  if (!authenticated) {
-    return <Navigate to="/login" replace />;
-  }
+	// Redirect to login if not authenticated
+	if (!authenticated) {
+		return <Navigate to="/login" replace />;
+	}
 
-  return <>{element}</>;
+	return <>{element}</>;
 };
 
 const App: React.FC = () => {
@@ -34,13 +36,13 @@ const App: React.FC = () => {
 		console.log(`Transferring ${amount} to ${address}`);
 		// Add your transfer logic here
 	};
-	const {
-		ready,
-		authenticated,
-		user,
-		logout,
-		login,
-	} = usePrivy();
+	// const {
+	// 	ready,
+	// 	authenticated,
+	// 	user,
+	// 	logout,
+	// 	login,
+	// } = usePrivy();
 
 	return (
 		<BrowserRouter>
@@ -48,10 +50,7 @@ const App: React.FC = () => {
 				{/* Home Route - Redirect to user page */}
 				<Route path="/" element={<Navigate to="/login" replace />} />
 
-				<Route
-					path="/login"
-					element={<UserLogin />}
-				/>
+				<Route path="/login" element={<UserLogin />} />
 
 				{/* User Transfer Route - Transfer Funds Form */}
 				{/*
